@@ -1,22 +1,14 @@
-# app.py
 
-# --- CHANGED BLOCK START ---
 import gradio as gr
 import joblib
-import spaces
+import os
 
-# We load the model once when the app starts
-deployed_lr = joblib.load('first model.pkl')
+deployed_lr = joblib.load("my_first_ml_model.pkl")
 
-# --- ZERO-GPU DECORATOR AND PREDICTION LOGIC ---
-@spaces.GPU
 def predict_rent(size_of_prop):
-    # The model expects a 2D array: [[size]]
     prediction = deployed_lr.predict([[size_of_prop]])
-    # Extract the single prediction value and format it
     return f"Estimated Rent: {prediction[0]:.2f}"
 
-# Create the web interface
 interface = gr.Interface(
     fn=predict_rent,
     inputs=gr.Number(label="Please Enter the Size of Your Property for rent"),
@@ -26,5 +18,7 @@ interface = gr.Interface(
 )
 
 if __name__ == "__main__":
-    interface.launch()
-# --- CHANGED BLOCK END ---
+    interface.launch(
+        server_name="0.0.0.0",
+        server_port=int(os.environ.get("PORT", 7860))
+    )
