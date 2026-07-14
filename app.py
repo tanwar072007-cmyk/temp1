@@ -3,7 +3,7 @@ import gradio as gr
 import joblib
 import os
 
-deployed_lr = joblib.load("my_first_ml_model.pkl")
+deployed_lr = joblib.load("first model.pkl")
 
 def predict_rent(size_of_prop):
     prediction = deployed_lr.predict([[size_of_prop]])
